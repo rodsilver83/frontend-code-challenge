@@ -1,32 +1,35 @@
 <label htmlFor="maxCP" class="max-cp">
-  <input type="checkbox" id="maxCP" />
-  <small>
-    Maximum Combat Points
-  </small>
+  <input type="checkbox" id="maxCP" (change)="toggleMaxCPCheck($event)" />
+  <small> Maximum Combat Points </small>
 </label>
-<input type="text" class="input" placeholder="Pokemon or type" />
-<div class="loader"></div>
+<input
+  type="text"
+  class="input"
+  placeholder="Pokemon or type"
+  (keyup)="searchPokemonHandler($event)"
+/>
+<div class="loader" *ngIf="loading"></div>
 <ul class="suggestions">
-  <li>
-    <img
-      src="http://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
-      alt=""
-    />
+  <li *ngFor="let pokemon of pokemonResultList">
+    <img src="{{ pokemon.img }}" alt="" />
     <div class="info">
-      <h1><span class="hl">Pika</span>chu</h1>
-      <span class="type electric">Electric</span>
-      <span class="type normal">Normal</span>
+      <h1>
+        <span class="hl">{{ pokemon.Name }}</span>
+      </h1>
+      <span
+        *ngFor="let type of pokemon.Types"
+        class="type {{ type.toLowerCase() }}"
+        >{{ type }}</span
+      >
     </div>
   </li>
-  <li>
+  <li *ngIf="pokemonResultList.length === 0">
     <img
       src="https://cyndiquil721.files.wordpress.com/2014/02/missingno.png"
       alt=""
     />
     <div class="info">
-      <h1 class="no-results">
-        No results
-      </h1>
+      <h1 class="no-results">No results</h1>
     </div>
   </li>
 </ul>
